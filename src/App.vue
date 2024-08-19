@@ -1,47 +1,154 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <div id="app">
+    <h1>Elden Home</h1>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+ 
+    <form v-if="!isLoggedIn" @submit.prevent="login">
+      <h2>Login</h2>
+      <div>
+        <label for="email">Email:</label>
+        <input v-model="email" type="email" required />
+        <span v-if="!emailValid">Please input valid email</span>
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input v-model="password" type="password" required />
+        <span v-if="!passwordValid">Password must be at least 6 characters</span>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+
+    
+    <div v-if="isLoggedIn">
+      <h2>Welcome, {{ userRole }}!</h2>
+
+      <form @submit.prevent="submitForm">
+        <div>
+          <label for="phone">Phone:</label>
+          <input v-model="phone" type="tel" required pattern="^\d{10}$" />
+          <span v-if="!phoneValid">Please input valid phone number</span>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+
+      <ul>
+        <li v-for="item in items" :key="item.id">{{ item.name }}</li>
+      </ul>
+
+
+      <div v-if="userRole === 'user'">
+        <h2>Rating</h2>
+        <div>
+          <label v-for="star in 5" :key="star">
+            <input type="radio" :value="star" v-model="userRating" />
+            {{ star }} Star
+          </label>
+        </div>
+        <button @click="submitRating">Submit Rating</button>
+        <p>Average Rating: {{ averageRating }}</p>
+      </div>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+      phone: '',
+      userRole: '',
+      isLoggedIn: false,
+      items: [],
+      userRating: 0,
+      ratings: JSON.parse(localStorage.getItem('ratings')) || [],
+    };
+  },
+  computed: {
+    emailValid() {
+      return this.email.includes('@');
+    },
+    passwordValid() {
+      return this.password.length >= 6;
+    },
+    phoneValid() {
+      return /^\d{10}$/.test(this.phone);
+    },
+    averageRating() {
+      return this.ratings.length
+        ? (
+            this.ratings.reduce((total, rating) => total + rating, 0) /
+            this.ratings.length
+          ).toFixed(1)
+        : 0;
+    },
+  },
+  methods: {
+    login() {
+      if (this.emailValid && this.passwordValid) {
+        this.isLoggedIn = true;
+        
+        this.userRole = this.email === 'admin@eldenhome.com' ? 'admin' : 'user';
+        localStorage.setItem('user', JSON.stringify({ email: this.email, role: this.userRole }));
+        alert('Login successful');
+      } else {
+        alert('Invalid login details');
+      }
+    },
+    submitForm() {
+      if (this.phoneValid) {
+        alert('Submit successfully');
+      } else {
+        alert('Error in submission');
+      }
+    },
+    fetchData() {
+      this.items = JSON.parse(localStorage.getItem('items')) || [];
+    },
+    submitRating() {
+      this.ratings.push(this.userRating);
+      localStorage.setItem('ratings', JSON.stringify(this.ratings));
+      alert('Rating submitted');
+    },
+  },
+  mounted() {
+    this.fetchData();
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      this.email = user.email;
+      this.userRole = user.role;
+      this.isLoggedIn = true;
+    }
+  },
+};
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  text-align: center;
+  margin-top: 60px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+form {
+  margin-bottom: 30px;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+input {
+  margin-bottom: 10px;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+span {
+  color: red;
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+h2 {
+  margin-top: 20px;
 }
 </style>
