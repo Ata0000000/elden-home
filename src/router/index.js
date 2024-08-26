@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue';
 import AboutView from '../views/AboutView.vue';
 import LoginView from '../views/LoginView.vue';
 import AccessDeniedView from '../views/DeniedView.vue';
+import RatingView from '../views/RatingView.vue';
+
 
 const routes = [
   {
@@ -10,6 +12,12 @@ const routes = [
     name: 'Home',
     component: HomeView
   },
+  {
+    path: '/rating',
+    name: 'Rating',
+    component: RatingView,
+  },
+
 
   {
     path: '/about',

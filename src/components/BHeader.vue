@@ -5,11 +5,13 @@
         <li class="nav-item">
           <router-link to="/" class="nav-link" active-class="active" aria-current="page">Signup</router-link>
         </li>
-        <!-- About link should always be visible -->
         <li class="nav-item">
           <router-link to="/about" class="nav-link">About</router-link>
         </li>
-        <!-- Conditionally render Logout button based on authentication -->
+        <li class="nav-item">
+          <!-- Rate Us 按钮始终可见 -->
+          <a href="#" class="nav-link" @click="handleRateUsClick">Rate Us</a>
+        </li>
         <li class="nav-item" v-if="isAuthenticated">
           <button class="btn btn-link" @click="logout">Logout</button>
         </li>
@@ -22,69 +24,78 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { ref, computed } from 'vue';
 
-// Function to handle logout
+const router = useRouter();
+
+// 计算属性判断用户是否已登录
+const isAuthenticated = computed(() => localStorage.getItem('isAuthenticated') === 'true');
+
+// 处理“Rate Us”按钮点击事件
+const handleRateUsClick = () => {
+  if (isAuthenticated.value) {
+    // 已登录，跳转到评分页面
+    router.push('/rating');
+  } else {
+    // 未登录，跳转到登录页面
+    router.push('/login');
+  }
+};
+
+// 处理登出操作
 const logout = () => {
   localStorage.removeItem('isAuthenticated');
-  isAuthenticated.value = false;
+  localStorage.removeItem('username');
   router.push('/login');
 };
 
-// Reactive state to manage authentication
-const isAuthenticated = ref(localStorage.getItem('isAuthenticated') === 'true');
-const router = useRouter();
-
-// Watch for authentication changes
+// 监听登录状态变化
 const updateAuthenticationStatus = (status) => {
   isAuthenticated.value = status;
 };
 
-// Listen for 'authChange' event from loginView component
 const handleAuthChange = (status) => {
   updateAuthenticationStatus(status);
 };
 
-// Listen for the 'authChange' event
 window.addEventListener('authChange', (event) => {
   handleAuthChange(event.detail);
 });
 </script>
-  
-  <style scoped>
+
+<style scoped>
   .b-example-divider {
     height: 3rem;
     background-color: rgba(0, 0, 0, 0.1);
     border: solid rgba(0, 0, 0, 0.15);
     border-width: 1px 0;
-    box-shadow:
-      inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
-      inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
+    box-shadow: inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1), inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
   }
-  
+
   .form-control-dark {
     color: #fff;
     background-color: var(--bs-dark);
     border-color: var(--bs-gray);
   }
+
   .form-control-dark:focus {
     color: #fff;
     background-color: var(--bs-dark);
     border-color: #fff;
     box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
   }
-  
+
   .bi {
     vertical-align: -0.125em;
     fill: currentColor;
   }
-  
+
   .text-small {
     font-size: 85%;
   }
-  
+
   .dropdown-toggle {
     outline: 0;
   }
-  </style>
+</style>
