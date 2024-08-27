@@ -67,10 +67,16 @@ const login = () => {
 const logout = () => {
   localStorage.removeItem('isAuthenticated');
   localStorage.removeItem('username');
+
+  // 直接更新 isAuthenticated 的值
+  isAuthenticated.value = false;
+
   const event = new CustomEvent('authChange', { detail: false });
   window.dispatchEvent(event);
+
   router.push('/login');
 };
+
 
 
 const goToAboutUs = () => {

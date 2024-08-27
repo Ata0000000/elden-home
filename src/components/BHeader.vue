@@ -30,7 +30,7 @@ import { ref, computed } from 'vue';
 const router = useRouter();
 
 // 计算属性判断用户是否已登录
-const isAuthenticated = computed(() => localStorage.getItem('isAuthenticated') === 'true');
+const isAuthenticated = ref(localStorage.getItem('isAuthenticated') === 'true');
 
 // 处理“Rate Us”按钮点击事件
 const handleRateUsClick = () => {
