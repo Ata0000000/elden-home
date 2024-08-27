@@ -9,12 +9,16 @@
           <router-link to="/about" class="nav-link">About</router-link>
         </li>
         <li class="nav-item">
-    <router-link to="/rating" class="nav-link" :key="router.currentRoute.fullPath">Rate Us</router-link>
-  </li>
+              <router-link to="/rating" class="nav-link" :key="router.currentRoute.fullPath">Rate Us</router-link>
+            </li>
 
         <li class="nav-item" v-if="isAuthenticated">
           <button class="btn btn-link" @click="logout">Logout</button>
         </li>
+        <li class="nav-item" v-if="isAdmin">
+            <router-link to="/admin" class="nav-link">Administer</router-link>
+          </li>
+
         <li class="nav-item" v-else>
           <router-link to="/login" class="nav-link">Login</router-link>
         </li>
@@ -42,6 +46,7 @@ const handleRateUsClick = () => {
     router.push('/login');
   }
 };
+const isAdmin = computed(() => localStorage.getItem('isAdmin') === 'true');
 
 // 处理登出操作
 const logout = () => {

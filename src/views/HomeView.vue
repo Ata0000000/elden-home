@@ -1,8 +1,4 @@
 
-
-文h
-您说：
-homeview.vue:
 <template>
     <div class="container mt-5">
         <div class="row">
@@ -45,6 +41,12 @@ homeview.vue:
                             </div>
                             <small v-if="errors.isAustralian" class="text-danger">{{ errors.isAustralian }}</small>
                         </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="isAdmin" v-model="formData.isAdmin">
+                            <label class="form-check-label" for="isAdmin">Register as Admin?</label>
+                        </div>
+
+                    
                         <div class="col-md-6">
                             <label for="gender" class="form-label">Gender</label>
                             <select class="form-select" id="gender" 
@@ -96,11 +98,13 @@ import { ref } from 'vue';
 const formData = ref({
     username: '',
     password: '',
-    confirmPassword:'',
+    confirmPassword: '',
     isAustralian: false,
     reason: '',
-    gender: ''
+    gender: '',
+    isAdmin: false 
 });
+
 
 const submittedCards = ref([]);
 
@@ -113,14 +117,13 @@ const submitForm =()=>{
     validateReason();
 
     if (!errors.value.username && !errors.value.password && !errors.value.confirmPassword && !errors.value.isAustralian && !errors.value.gender && !errors.value.reason) {
- 
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    users.push({ ...formData.value });
-    localStorage.setItem('users', JSON.stringify(users));
-    
-    submittedCards.value.push({ ...formData.value });
-    clearForm();
-  }
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        users.push({ ...formData.value });
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        submittedCards.value.push({ ...formData.value });
+        clearForm();
+    }
 };
 
 const errors = ref({
@@ -189,6 +192,7 @@ const validateResident = () => {
         errors.value.isAustralian = null;
     }
 };
+
 
 const validateGender = () => {
     if (!formData.value.gender) {

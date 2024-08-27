@@ -51,17 +51,24 @@ const login = () => {
   if (user) {
     localStorage.setItem('isAuthenticated', 'true');
     localStorage.setItem('username', username.value);
-    successMessage.value = 'Login successful! To visit the About Us page, ';
+    localStorage.setItem('isAdmin', user.isAdmin); 
+    successMessage.value = 'Login successful!';
     error.value = null;
+
     const event = new CustomEvent('authChange', { detail: true });
     window.dispatchEvent(event);
-    // 登录成功后直接导航到评分页面
-    router.push('/rating');
+
+    if (user.isAdmin) {
+      router.push('/admin'); 
+    } else {
+      router.push('/rating'); 
+    }
   } else {
     error.value = 'Invalid username or password';
     successMessage.value = null;
   }
 };
+
 
 
 const logout = () => {

@@ -1,11 +1,10 @@
 <template>
-    <div class="container mt-5">
-      <h1>Admin Page</h1>
-      <p>Welcome to the admin area.</p>
-    </div>
-  </template>
-  
-  <script setup>
-  // 这里可以放置管理员页面的逻辑
-  </script>
-  
+  <div class="container mt-5">
+    <h1>Admin Dashboard</h1>
+    <!-- 管理员相关内容 -->
+  </div>
+</template>
+
+<script setup>
+// 管理员页面的逻辑...
+</script>
