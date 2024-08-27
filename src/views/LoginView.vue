@@ -67,8 +67,11 @@ const login = () => {
 const logout = () => {
   localStorage.removeItem('isAuthenticated');
   localStorage.removeItem('username');
+  const event = new CustomEvent('authChange', { detail: false });
+  window.dispatchEvent(event);
   router.push('/login');
 };
+
 
 const goToAboutUs = () => {
   router.push('/about');

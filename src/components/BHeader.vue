@@ -9,9 +9,9 @@
           <router-link to="/about" class="nav-link">About</router-link>
         </li>
         <li class="nav-item">
-          <!-- Rate Us 按钮始终可见 -->
-          <a href="#" class="nav-link" @click="handleRateUsClick">Rate Us</a>
-        </li>
+    <router-link to="/rating" class="nav-link" :key="router.currentRoute.fullPath">Rate Us</router-link>
+  </li>
+
         <li class="nav-item" v-if="isAuthenticated">
           <button class="btn btn-link" @click="logout">Logout</button>
         </li>
@@ -47,8 +47,11 @@ const handleRateUsClick = () => {
 const logout = () => {
   localStorage.removeItem('isAuthenticated');
   localStorage.removeItem('username');
+  const event = new CustomEvent('authChange', { detail: false });
+  window.dispatchEvent(event);
   router.push('/login');
 };
+
 
 // 监听登录状态变化
 const updateAuthenticationStatus = (status) => {

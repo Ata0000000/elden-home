@@ -37,15 +37,18 @@
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
   const isAdmin = localStorage.getItem('isAdmin') === 'true';
   
+  onMounted(() => {
   if (!isAuthenticated) {
     router.push('/login');
   } else {
-    onMounted(() => {
-      const storedRatings = JSON.parse(localStorage.getItem('ratings')) || [];
-      ratings.value = storedRatings;
-      calculateAverage();
-    });
+    const storedRatings = JSON.parse(localStorage.getItem('ratings')) || [];
+    ratings.value = storedRatings;
+    calculateAverage();
+    // 强制重新渲染页面
+    userRating.value = null;
+    submitSuccess.value = false;
   }
+});
   
   const submitRating = () => {
     if (userRating.value >= 1 && userRating.value <= 5) {
@@ -73,6 +76,7 @@
     }
   };
   </script>
+  
   
   <style scoped>
   .text-center {

@@ -16,6 +16,7 @@ const routes = [
     path: '/rating',
     name: 'Rating',
     component: RatingView,
+    key: (route) => route.fullPath
   },
 
 
