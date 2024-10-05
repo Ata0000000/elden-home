@@ -22,6 +22,12 @@
         <li class="nav-item" v-else>
           <router-link to="/login" class="nav-link">Login</router-link>
         </li>
+        <li class = "nav-item">
+          <router-link to="/Firelogin" class ='nav-link' active-class="active">Firebase Login</router-link>
+        </li>
+        <li class="nav-item">
+            <router-link to="/FireRegister" class = "nav-link" active-class="active">Firebase Register</router-link>
+        </li>
       </ul>
     </header>
   </div>
@@ -33,22 +39,22 @@ import { ref, computed } from 'vue';
 
 const router = useRouter();
 
-// 计算属性判断用户是否已登录
+
 const isAuthenticated = ref(localStorage.getItem('isAuthenticated') === 'true');
 
-// 处理“Rate Us”按钮点击事件
+
 const handleRateUsClick = () => {
   if (isAuthenticated.value) {
-    // 已登录，跳转到评分页面
+    
     router.push('/rating');
   } else {
-    // 未登录，跳转到登录页面
+ 
     router.push('/login');
   }
 };
 const isAdmin = computed(() => localStorage.getItem('isAdmin') === 'true');
 
-// 处理登出操作
+
 const logout = () => {
   localStorage.removeItem('isAuthenticated');
   localStorage.removeItem('username');
@@ -57,8 +63,6 @@ const logout = () => {
   router.push('/login');
 };
 
-
-// 监听登录状态变化
 const updateAuthenticationStatus = (status) => {
   isAuthenticated.value = status;
 };

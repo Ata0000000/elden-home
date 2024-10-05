@@ -33,32 +33,31 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="isAustralian" 
-                                v-model="formData.isAustralian" @change="validateResident">
-                                <label class="form-check-label" for="isAustralian">Australian Resident?</label>
-                            </div>
-                            <small v-if="errors.isAustralian" class="text-danger">{{ errors.isAustralian }}</small>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <div class="form-check me-3">
+                            <input type="checkbox" class="form-check-input" id="isAustralian" 
+                            v-model="formData.isAustralian" @change="validateResident">
+                            <label class="form-check-label" for="isAustralian">Australian Resident?</label>
+                            <small v-if="errors.isAustralian" class="text-danger d-block mt-1">{{ errors.isAustralian }}</small>
                         </div>
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="isAdmin" v-model="formData.isAdmin">
                             <label class="form-check-label" for="isAdmin">Register as Admin?</label>
                         </div>
-
-                    
-                        <div class="col-md-6">
-                            <label for="gender" class="form-label">Gender</label>
-                            <select class="form-select" id="gender" 
-                            v-model="formData.gender" @change="validateGender">
-                                <option value="" disabled>Select your gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
-                            </select>
-                            <small v-if="errors.gender" class="text-danger">{{ errors.gender }}</small>
-                        </div>
                     </div>
+                    <div class="col-md-6">
+                        <label for="gender" class="form-label">Gender</label>
+                        <select class="form-select" id="gender" 
+                        v-model="formData.gender" @change="validateGender">
+                            <option value="" disabled>Select your gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <small v-if="errors.gender" class="text-danger mt-1">{{ errors.gender }}</small>
+                    </div>
+                </div>
+
 
                         <div class="mb-3">
                         <label for="reason" class="form-label">Reason for joining</label>

@@ -10,7 +10,7 @@
   </script>
   
   <style>
-  /* 可选的 CSS 样式 */
+  
   .access-denied {
     text-align: center;
     padding: 20px;
