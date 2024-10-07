@@ -28,6 +28,9 @@
         <li class="nav-item">
             <router-link to="/FireRegister" class = "nav-link" active-class="active">Firebase Register</router-link>
         </li>
+        <li class="nav-item" v-if="isAdmin">
+      <router-link to="/admin-email" class="nav-link">AdminEmail</router-link>
+    </li>
       </ul>
     </header>
   </div>

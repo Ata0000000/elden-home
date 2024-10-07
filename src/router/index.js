@@ -7,7 +7,21 @@ import RatingView from '../views/RatingView.vue';
 import AdminView from '../views/AdminView.vue';
 import FirebaseSigninView from '@/views/FirebaseSigninView.vue';
 import FirebaseRegisterView from '@/views/FirebaseRegisterView.vue'
+import AdminEmailView from '@/views/AdminEmailView.vue';
 const routes = [
+  {
+    path: '/admin-email',
+    name: 'AdminEmail',
+    component: AdminEmailView,
+    beforeEnter: (to, from, next) => {
+      const isAdmin = localStorage.getItem('isAdmin') === 'true';
+      if (isAdmin) {
+        next();
+      } else {
+        next('/access-denied');
+      }
+    }
+  },
   {
     path: '/FireRegister',
     name: 'FireRegister',
@@ -60,6 +74,11 @@ const routes = [
     path: '/access-denied',
     name: 'AccessDenied',
     component: AccessDeniedView
+  },
+  {
+    path: '/interactive-tables',
+    name: 'InteractiveTables',
+    component: InteractiveTables
   }
 ];
 
