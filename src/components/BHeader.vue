@@ -11,7 +11,6 @@
         <li class="nav-item">
               <router-link to="/rating" class="nav-link" :key="router.currentRoute.fullPath">Rate Us</router-link>
             </li>
-
         <li class="nav-item" v-if="isAuthenticated">
           <button class="btn btn-link" @click="logout">Logout</button>
         </li>
@@ -31,6 +30,10 @@
         <li class="nav-item" v-if="isAdmin">
       <router-link to="/admin-email" class="nav-link">AdminEmail</router-link>
     </li>
+    <li class="nav-item">
+  <router-link to="/interactive-tables" class="nav-link">Interactive Tables</router-link>
+</li>
+
       </ul>
     </header>
   </div>

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+
 import HomeView from '../views/HomeView.vue';
 import AboutView from '../views/AboutView.vue';
 import LoginView from '../views/LoginView.vue';
@@ -8,6 +8,8 @@ import AdminView from '../views/AdminView.vue';
 import FirebaseSigninView from '@/views/FirebaseSigninView.vue';
 import FirebaseRegisterView from '@/views/FirebaseRegisterView.vue'
 import AdminEmailView from '@/views/AdminEmailView.vue';
+import InteractiveTables from '@/views/InteractiveTables.vue';
+import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
   {
     path: '/admin-email',
