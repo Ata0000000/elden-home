@@ -22,7 +22,7 @@
           <router-link to="/login" class="nav-link">Login</router-link>
         </li>
         <li class = "nav-item">
-          <router-link to="/Firelogin" class ='nav-link' active-class="active">Firebase Login</router-link>
+          <router-link to="/Firelogin" class ='nav-link' active-class="active">Login</router-link>
         </li>
         <li class="nav-item">
             <router-link to="/FireRegister" class = "nav-link" active-class="active">Firebase Register</router-link>

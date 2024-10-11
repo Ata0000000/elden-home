@@ -1,31 +1,20 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
 
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-
-import PrimeVue from 'primevue/config'
-import Aura from '@primevue/themes/aura'
+import PrimeVue from 'primevue/config';
+import Aura from '@primevue/themes/aura';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
-
-const app = createApp(App)
-app.component('DataTable', DataTable);
-app.component('Column', Column);
-app.use(PrimeVue, { theme: { preset: Aura } })
-app.use(router)
-
-app.mount('#app')
-
-
-
-// Import the functions you need from the SDKs you need
+// Import Firebase libraries
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFunctions } from 'firebase/functions';
 
-// Your web app's Firebase configuration
+import 'mapbox-gl/dist/mapbox-gl.css';
+
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAaJdgqFOHpYJed-3kjmMc3g9hr5Ytg2nI",
   authDomain: "elden-home.firebaseapp.com",
@@ -36,4 +25,20 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-initializeApp(firebaseConfig);
+const appInstance = initializeApp(firebaseConfig);
+
+// Get Firebase Functions instance
+const functions = getFunctions(appInstance);
+
+// Create Vue application
+const app = createApp(App);
+app.component('DataTable', DataTable);
+app.component('Column', Column);
+app.use(PrimeVue, { theme: { preset: Aura } });
+app.use(router);
+
+// Mount Vue application
+app.mount('#app');
+
+// Export Firebase services to be used in other parts of the application
+export { functions };

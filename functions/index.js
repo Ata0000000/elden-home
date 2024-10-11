@@ -1,23 +1,43 @@
-// index.js
-
 const functions = require("firebase-functions");
-const express = require("express");
-const cors = require("cors");
+const sgMail = require("@sendgrid/mail");
 
-const app = express();
+// 设置 SendGrid 的 API 密钥
+sgMail.setApiKey(functions.config().sendgrid.key);
 
-// 使用 CORS 中间件，允许特定来源
-app.use(cors({
-  origin: "http://localhost:5174", // 开发环境
-  // origin: 'https://your-production-domain.com', // 生产环境时使用实际域名
-}));
+exports.sendEmailWithAttachment = functions.https.onCall(
+    async (data, context) => {
+      const {
+        recipientEmail,
+        emailSubject,
+        emailMessage,
+        attachment,
+      } = data;
 
-app.use(express.json());
+      try {
+        const msg = {
+          to: recipientEmail,
+          from: "taoxiansheng805@gmail.com",
+          subject: emailSubject,
+          text: emailMessage,
+          attachments: [
+            {
+              content: attachment.content,
+              filename: attachment.filename,
+              type: attachment.type,
+              disposition: "attachment",
+            },
+          ],
+        };
 
-// 示例的 Hello World 路由
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  response.send("Hello from Firebase using Express!");
-});
-
-// 导出 Cloud Function
-exports.app = functions.https.onRequest(app);
+        await sgMail.send(msg);
+        return {success: true, message: "Email sent successfully"};
+      } catch (error) {
+        console.error("Error sending email:", error);
+        throw new functions.https.HttpsError(
+            "internal",
+            "Failed to send email",
+            error.message,
+        );
+      }
+    },
+);

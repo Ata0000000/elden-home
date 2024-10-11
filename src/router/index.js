@@ -57,7 +57,7 @@ const routes = [
       if (currentUser && currentUser.isAdmin) {
         next();
       } else {
-        next('/access-denied'); // 如果不是管理员，重定向到拒绝访问页面
+        next('/access-denied'); 
       }
     }
   },
